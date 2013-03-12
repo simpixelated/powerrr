@@ -348,7 +348,7 @@
             }]
         });
 
-        console.log(cars);
+        ko.applyBindings({cars: cars});
 
         $( "#cars_list" ).tablesorter({ sortList: [[5,1]] });
 

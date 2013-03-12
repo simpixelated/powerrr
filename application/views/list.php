@@ -15,9 +15,10 @@
     <script src="public/assets/javascripts/vendor/custom.modernizr.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="public/assets/javascripts/vendor/underscore-min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
     <script src="public/assets/javascripts/vendor/highcharts.min.js"></script>
-    <script src="public/assets/javascripts/vendor/jquery.tablesorter.min.js"></script>
-	<script src="public/assets/javascripts/app.js"></script>
+    <script src="public/assets/javascripts/vendor/jquery.tablesorter.min.js"></script>	
+    <script src="public/assets/javascripts/app.js"></script>
 </head>
 <body>
 
@@ -45,21 +46,20 @@
         			<th>Value (HP/T/$1K)</th>
                 </tr>
                 </thead>
-                <tbody>
-                <?php foreach($cars as $c){?>
-                <tr>
-                    <td><?=$c['year']?></td>
-        			<td><?=$c['make']?> <?=$c['model']?></td>            
-                    <td><?=$c['drivetype']?></td>
-                    <td><?=$c['hp']?></td>
-                    <td><?=$c['weight']?></td>
-                    <td><?=$c['ratio']?></td>
-        			<td><?=$c['hp_per_ton']?></td>
-                    <td><?=$c['zerotosixty']?></td>
-                    <td>$<?=$c['price']?></td>
-        			<td><?=$c['value']?></td>
-                </tr>
-                <?php } ?>
+                <tbody data-bind="foreach: cars">
+                    <tr>
+                        <td data-bind="text: year"></td>
+                        <td data-bind="text: make + ' ' + model"></td>
+                        <td data-bind="text: drivetype"></td>
+                        <td data-bind="text: hp"></td>
+                        <td data-bind="text: weight"></td>
+                        <td data-bind="text: ratio"></td>
+                        <td data-bind="text: hpperton"></td>
+                        <td data-bind="text: zerotosixty"></td>
+                        <td data-bind="text: price"></td>
+                        <td data-bind="text: performancevalue"></td>
+                        <td data-bind="text: year"></td>
+                    </tr>
                 </tbody>
             </table>
 
