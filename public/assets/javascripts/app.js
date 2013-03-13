@@ -241,18 +241,28 @@
         'drivetype' : 'RWD'
     }];
 
+    // calculate stats for a single vehicle
     function VehiclePower (vehicle) {
+        
         var driveTypeMultiplier = {
                 "RWD":.9,
                 "AWD":.85,
                 "FWD":1
             };
 
+        // horsepower per US ton
         vehicle.hpperton = Math.round(vehicle.hp / (vehicle.weight/2000));
+
+        // guestimate 0-60mph based on weight, horsepower, and a modifier for drivetype
         if(!vehicle.drivetype) { vehicle.drivetype = "FWD"; }
         vehicle.zerotosixty = Math.round((Math.pow(vehicle.weight / vehicle.hp * driveTypeMultiplier[vehicle.drivetype], .75)) * 1000) / 1000;
+        
+        // power to weight ratio
         vehicle.ratio = Math.round((vehicle.hp / vehicle.weight)*1000)/1000;
+
+        // performance value for the price
         vehicle.performancevalue = Math.round((vehicle.hpperton / (vehicle.price/1000))*10)/10;
+
         return vehicle;
     }
 
@@ -271,7 +281,7 @@
         ko.applyBindings(viewModel);
         
         // example of adding a new car and automatically calculating 0-60, etc.
-        viewModel.addVehicle({
+        /*viewModel.addVehicle({
             'make':'Lexus1212',
             'model':'IS 350',
             'year':'2007',
@@ -279,7 +289,7 @@
             'weight':3527,
             'price':16955,
             'drivetype' : 'RWD'
-        });
+        });*/
 
         $( "#cars_list" ).tablesorter({ sortList: [[6,1]] });
 
