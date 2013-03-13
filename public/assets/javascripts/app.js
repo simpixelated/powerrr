@@ -1,17 +1,8 @@
 (function () { 
     "use strict";
 
-    var driveTypeMultiplier = {
-            "RWD":.9,
-            "AWD":.85,
-            "FWD":1
-        },
-        charts = {},
-        cars,        
-        carValue,
-        carHpWeight;        
-
-    cars = [{
+    var charts = {},
+        vehiclesList = [{
         'make':'Subaru',
         'model':'Imprezza WRX',
         'year':'2012',
@@ -250,38 +241,47 @@
         'drivetype' : 'RWD'
     }];
 
-    cars = _.map(cars, function (car, key, list) {
-        car.hpperton = Math.round(car.hp / (car.weight/2000));
-        if(!car.drivetype) { car.drivetype = "FWD"; }
-        car.zerotosixty = Math.round((Math.pow(car.weight / car.hp * driveTypeMultiplier[car.drivetype], .75)) * 1000) / 1000;
-        car.ratio = Math.round((car.hp / car.weight)*1000)/1000;
-        car.performancevalue = Math.round((car.hpperton / (car.price/1000))*10)/10;
-        return car;
-    });
+    function VehiclePower (vehicle) {
+        var driveTypeMultiplier = {
+                "RWD":.9,
+                "AWD":.85,
+                "FWD":1
+            };
 
-    carValue = _.map(cars, function (car) {
-        return { name: car.model, y: parseFloat(car.performancevalue)};
-    }).sort(function(a,b) {
-        return a.y - b.y;
-    });
+        vehicle.hpperton = Math.round(vehicle.hp / (vehicle.weight/2000));
+        if(!vehicle.drivetype) { vehicle.drivetype = "FWD"; }
+        vehicle.zerotosixty = Math.round((Math.pow(vehicle.weight / vehicle.hp * driveTypeMultiplier[vehicle.drivetype], .75)) * 1000) / 1000;
+        vehicle.ratio = Math.round((vehicle.hp / vehicle.weight)*1000)/1000;
+        vehicle.performancevalue = Math.round((vehicle.hpperton / (vehicle.price/1000))*10)/10;
+        return vehicle;
+    }
 
-    carHpWeight = _.map(cars, function (car) {
-        return { name: car.model, x: parseInt(car.hp), y: parseInt(car.weight) };
-    }).sort(function(a,b) {
-        return a.x - b.x;
-    });
+    function VehicleViewModel () {
+        var self = this;
 
+        self.vehicles = ko.observableArray(_.map(vehiclesList, VehiclePower));
+        self.addVehicle = function (vehicle) {
+            self.vehicles.push(VehiclePower(vehicle));
+        }
+    }
+    
     $(function(){
 
-        var parameters = {
-            cmd:"getTrims", 
-            min_year:"2009",
-            sold_in_us: 1,
-            body: "Hatchback",
-            doors: 5,
-            keyword: "Automatic",
-            min_torque: 200
-        }
+        var viewModel = new VehicleViewModel();
+        ko.applyBindings(viewModel);
+        
+        // example of adding a new car and automatically calculating 0-60, etc.
+        viewModel.addVehicle({
+            'make':'Lexus1212',
+            'model':'IS 350',
+            'year':'2007',
+            'hp':306,
+            'weight':3527,
+            'price':16955,
+            'drivetype' : 'RWD'
+        });
+
+        $( "#cars_list" ).tablesorter({ sortList: [[6,1]] });
 
         charts.price = new Highcharts.Chart({
             chart: {
@@ -305,7 +305,11 @@
             },
             series: [{
                 name: "Value (Horsepower per US ton per $1k",
-                data: carValue
+                data: _.map(viewModel.vehicles(), function (vehicle) {
+                    return { name: vehicle.model, y: parseFloat(vehicle.performancevalue)};
+                }).sort(function(a,b) {
+                    return a.y - b.y;
+                })
             }]
         });
 
@@ -344,13 +348,13 @@
             },
             series: [{
                 name: "Power to Weight",
-                data: carHpWeight
+                data: _.map(viewModel.vehicles(), function (vehicle) {
+                    return { name: vehicle.model, x: parseInt(vehicle.hp), y: parseInt(vehicle.weight) };
+                }).sort(function(a,b) {
+                    return a.x - b.x;
+                })
             }]
         });
-
-        ko.applyBindings({cars: cars});
-
-        $( "#cars_list" ).tablesorter({ sortList: [[5,1]] });
 
     });
 

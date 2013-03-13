@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="public/assets/stylesheets/app.css">
     <link rel="stylesheet" href="public/assets/stylesheets/theme.default.css">
     <script src="public/assets/javascripts/vendor/custom.modernizr.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="public/assets/javascripts/vendor/underscore-min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
     <script src="public/assets/javascripts/vendor/highcharts.min.js"></script>
     <script src="public/assets/javascripts/vendor/jquery.tablesorter.min.js"></script>	
@@ -35,7 +35,8 @@
                 <thead>
                 <tr>
                     <th>Year</th>			
-                    <th>Make / Model</th>
+                    <th>Make</th>
+                    <th>Model</th>
                     <th>Drive</th>
                     <th>Horsepower</th>
                     <th>Curb Weight (lbs)</th>            
@@ -46,10 +47,11 @@
         			<th>Value (HP/T/$1K)</th>
                 </tr>
                 </thead>
-                <tbody data-bind="foreach: cars">
+                <tbody data-bind="foreach: vehicles">
                     <tr>
                         <td data-bind="text: year"></td>
-                        <td data-bind="text: make + ' ' + model"></td>
+                        <td data-bind="text: make"></td>
+                        <td data-bind="text: model"></td>
                         <td data-bind="text: drivetype"></td>
                         <td data-bind="text: hp"></td>
                         <td data-bind="text: weight"></td>
@@ -58,13 +60,11 @@
                         <td data-bind="text: zerotosixty"></td>
                         <td data-bind="text: price"></td>
                         <td data-bind="text: performancevalue"></td>
-                        <td data-bind="text: year"></td>
                     </tr>
                 </tbody>
             </table>
 
             <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
-
             <div id="hp_weight" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
         
         </div>
