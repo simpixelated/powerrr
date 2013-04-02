@@ -17,7 +17,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
     <script src="public/assets/javascripts/vendor/highcharts.min.js"></script>
-    <script src="public/assets/javascripts/vendor/jquery.tablesorter.min.js"></script>	
+    <script src="public/assets/javascripts/vendor/jquery.tablesorter.min.js"></script>
+    <script src="public/assets/javascripts/vendor/edmunds.core.api.js"></script>
+    <script src="public/assets/javascripts/vendor/edmunds.vehicle.api.js"></script>
     <script src="public/assets/javascripts/app.js"></script>
 </head>
 <body>

@@ -1,4 +1,4 @@
-(function () { 
+(function () {
     "use strict";
 
     var charts = {},
@@ -239,14 +239,23 @@
         'weight':3527,
         'price':16955,
         'drivetype' : 'RWD'
+    },
+    {
+        'make':'Mercedes',
+        'model':'CL600 5.5L V12',
+        'year':'2003',
+        'hp':493,
+        'weight':4300,
+        'price':14741,
+        'drivetype' : 'RWD'
     }];
 
     // calculate stats for a single vehicle
     function VehiclePower (vehicle) {
-        
+
         var driveTypeMultiplier = {
-                "RWD":.9,
-                "AWD":.85,
+                "RWD":0.9,
+                "AWD":0.85,
                 "FWD":1
             };
 
@@ -255,8 +264,8 @@
 
         // guestimate 0-60mph based on weight, horsepower, and a modifier for drivetype
         if(!vehicle.drivetype) { vehicle.drivetype = "FWD"; }
-        vehicle.zerotosixty = Math.round((Math.pow(vehicle.weight / vehicle.hp * driveTypeMultiplier[vehicle.drivetype], .75)) * 1000) / 1000;
-        
+        vehicle.zerotosixty = Math.round((Math.pow(vehicle.weight / vehicle.hp * driveTypeMultiplier[vehicle.drivetype], 0.75)) * 1000) / 1000;
+
         // power to weight ratio
         vehicle.ratio = Math.round((vehicle.hp / vehicle.weight)*1000)/1000;
 
@@ -271,27 +280,62 @@
 
         self.vehicles = ko.observableArray(_.map(vehiclesList, VehiclePower));
         self.addVehicle = function (vehicle) {
-            self.vehicles.push(VehiclePower(vehicle));
-        }
+            self.vehicles.push(new VehiclePower(vehicle));
+        };
     }
-    
+
+    var v = new EDMUNDSAPI.Vehicle('vvkfrmvw29edq9a4zdyprc9h');
+
+    // pass vehicle object
+    function getVehicle (options) {
+
+        var vehicle,
+            deferred = $.Deferred();
+
+        //if(vehicle in DB) {
+            //vehicle = CouchDBJSON;
+            //deferred.resolve(vehicle)
+
+        //} else {
+            //if no vehicle, pull from Edmunds
+            //assume make, model, year at least
+            //if modelyearid, or styleid, use those            
+            v.getStylesByMakeModelYear(options.make, options.model, options.year).then(function (data) {
+
+                vehicle = data.styleHolder[0];
+                console.log(vehicle);
+
+                // use modelyearid to get engine specs
+                v.getEquipmentByTypeAndModelYearId("ENGINE", vehicle.modelYearId).then(function (data) {
+                    $.extend(vehicle, { engine: data.equipmentHolder[0] });
+                    //save to DB
+                    deferred.resolve(vehicle);
+                });
+            });
+
+        //}
+
+        return deferred.promise();
+    }
+
+    function simplifyVehicle (vehicle) {
+        return {
+            make: vehicle.makeName,
+            model: vehicle.modelName,
+            year: vehicle.year,
+            weight: vehicle.attributeGroups.SPECIFICATIONS.attributes.CURB_WEIGHT.value,
+            price: (vehicle.publicationState === "USED") ? vehicle.price.usedTmvRetail : vehicle.price.tmv,
+            drivetype: 'RWD',//vehicle.attributeGroups.DRIVE_TYPE.attributes.DRIVEN_WHEELS.value,
+            hp: vehicle.engine.attributeGroups.ENGINE.attributes.HORSEPOWER.value
+        };
+    }
+
     $(function(){
 
         var viewModel = new VehicleViewModel();
         ko.applyBindings(viewModel);
-        
-        // example of adding a new car and automatically calculating 0-60, etc.
-        /*viewModel.addVehicle({
-            'make':'Lexus1212',
-            'model':'IS 350',
-            'year':'2007',
-            'hp':306,
-            'weight':3527,
-            'price':16955,
-            'drivetype' : 'RWD'
-        });*/
 
-        $( "#cars_list" ).tablesorter({ sortList: [[6,1]] });
+        $("#cars_list").tablesorter({ sortList: [[6,1]] });
 
         charts.price = new Highcharts.Chart({
             chart: {
@@ -359,11 +403,19 @@
             series: [{
                 name: "Power to Weight",
                 data: _.map(viewModel.vehicles(), function (vehicle) {
-                    return { name: vehicle.model, x: parseInt(vehicle.hp), y: parseInt(vehicle.weight) };
+                    return { name: vehicle.model, x: parseInt(vehicle.hp, 10), y: parseInt(vehicle.weight, 10) };
                 }).sort(function(a,b) {
                     return a.x - b.x;
                 })
             }]
+        });
+
+        var ajaxvehicle = getVehicle({make: "Honda", "model": "S2000", "year": 2004});
+        // update ko viewModel and let other non-ko UI elements know
+        ajaxvehicle.then(function (vehicle) {
+            viewModel.addVehicle(simplifyVehicle(vehicle));
+            $("#cars_list").trigger("update");
+            //update highcharts
         });
 
     });
