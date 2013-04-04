@@ -1,6 +1,7 @@
 test( "powerrr public methods", function() {
   //ok( 1 == "1", "Passed!" );
-  ok(_.isArray(powerrr.viewModel), "powerrr.viewModel should be an array? (not sure because of ko)");
+  var vehicles = powerrr.viewModel.vehicles();
+  ok(_.isArray(vehicles), "powerrr view model contains an array of vehicles");
 });
 
 //var addNewVehicle = powerrr.addNewVehicle({make: "Honda", model: "S2000", year: 2004});
