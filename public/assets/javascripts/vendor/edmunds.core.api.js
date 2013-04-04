@@ -44,7 +44,7 @@ function EDMUNDSAPI(key) {
 	 * @type DOMElement
 	 */
 	var _head = document.getElementsByTagName('head')[0];
-	
+
 	/**
 	 * The base URL for the API
 	 *
@@ -58,7 +58,7 @@ function EDMUNDSAPI(key) {
 		for(var key in params) {
 			if(params.hasOwnProperty(key)) {
 				if (str !== '') str += "&";
-		   		str += key + "=" + params[key];
+				str += key + "=" + params[key];
 			}
 		}
 		return str;
