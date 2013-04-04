@@ -2,19 +2,6 @@ var powerrr = (function () {
 
     "use strict";
 
-    /* TODO:
-        - QUnit tests
-        - pull vehiclesList from CouchDB
-        - convert Edmunds drivetype for use in vehiclePower
-        - update Highcharts when viewModel is updated (maybe through ko.subscribe? or just Highcarts.update)
-        - filter the list of vehicles by drive type, >=hp, etc.
-        - search possible vehicles by YMMM: 
-            - match user text to make and model from DB/Edmunds
-            - let user select from possible years
-            - let user select trim
-            - if pulling from Edmunds, save to DB
-    */
-
     var edmunds = new EDMUNDSAPI.Vehicle('vvkfrmvw29edq9a4zdyprc9h');
 
     var vehiclesList = [{
@@ -264,6 +251,18 @@ var powerrr = (function () {
         'price':14741,
         'drivetype' : 'RWD'
     }];
+
+    /* TODO:
+        - pull vehiclesList from CouchDB
+        - convert Edmunds drivetype for use in vehiclePower
+        - update Highcharts when viewModel is updated (maybe through ko.subscribe? or just Highcarts.update)
+        - filter the list of vehicles by drive type, >=hp, etc.
+        - search possible vehicles by YMMM: 
+            - match user text to make and model from DB/Edmunds
+            - let user select from possible years
+            - let user select trim
+            - if pulling from Edmunds, save to DB
+    */
 
     //--getAllMakes,        // return an object of all makes (CouchDB--possibly extend with Edmunds API to fill in missing makes)
     //--getModelsByMake,    // return all models by make (CouchDB--possibly extend with Edmunds API to fill in missing models)
