@@ -127,5 +127,5 @@ function EDMUNDSAPI(key) {
 			data: params,
 			dataType: "jsonp"
 		});
-	}
+	};
 }
