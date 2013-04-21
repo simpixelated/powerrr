@@ -1,5 +1,5 @@
 asyncTest( "powerrr public methods", function() {
-	var vehicles = powerrr.viewModel.vehicles();
+	var vehicles = powerrr.vehicles();
 	var addNewVehicle = powerrr.addNewVehicle({make: "Honda", model: "S2000", year: 2004});
 	ok(_.isArray(vehicles), "powerrr view model contains an array of vehicles");
 	ok(addNewVehicle.promise, "addNewVehicle returns a $.promise");
