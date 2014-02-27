@@ -9,20 +9,10 @@
 	
     <title>Powerrr!!</title>
     
-    <link rel="stylesheet" href="stylesheets/normalize.css">
-    <link rel="stylesheet" href="stylesheets/app.css">
-    <link rel="stylesheet" href="stylesheets/theme.default.css">
-    <script src="javascripts/vendor/custom.modernizr.js"></script>
-    <script src="javascripts/vendor/underscore-min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
-    <script src="http://code.highcharts.com/highcharts.js"></script>
-    <script src="javascripts/vendor/jquery.tablesorter.min.js"></script>
-    <script src="javascripts/vendor/edmunds.core.api.js"></script>
-    <script src="javascripts/vendor/edmunds.vehicle.api.js"></script>
-    <script src="javascripts/vendor/couch.js"></script>
-    <script src="javascripts/powerrr.js"></script>
-    <script src="javascripts/app.js"></script>
+    <link rel="stylesheet" href="/styles/normalize.css">
+    <link rel="stylesheet" href="/styles/app.css">
+    <link rel="stylesheet" href="/styles/theme.default.css">
+    <script src="/scripts/vendor/custom.modernizr.js"></script>
 </head>
 <body>
 
@@ -51,6 +41,21 @@
         			<th>Value (HP/T/$1K)</th>
                 </tr>
                 </thead>
+                <!-- {{#each vehicles}}
+                    <tr>
+                        <td>{{year}}</td>
+                        <td>{{make}}</td>
+                        <td>{{model}}</td>
+                        <td>{{drivetype}}</td>
+                        <td>{{hp}}</td>
+                        <td>{{weight}}</td>
+                        <td>{{ratio}}</td>
+                        <td>{{hpperton}}</td>
+                        <td>{{zerotosixty}}</td>
+                        <td>{{price}}</td>
+                        <td>{{performancevalue}}</td>
+                    </tr>
+                {{/each}} -->
                 <tbody data-bind="foreach: vehicles">
                     <tr>
                         <td data-bind="text: year"></td>
@@ -74,5 +79,6 @@
         </div>
     </div>
 
+    <script data-main="/scripts/config" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 </body>
 </html>

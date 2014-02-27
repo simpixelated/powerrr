@@ -1,0 +1,46 @@
+[
+	{
+        "make":"Subaru",
+        "model":"Imprezza WRX",
+        "year":"2012",
+        "hp":"265",
+        "weight":"3208",
+        "price":"25595",
+        "drivetype" : "AWD"
+    },
+    {
+        "make":"Volkswagen",
+        "model":"GTI",
+        "year":2012,
+        "hp":200,
+        "weight":3034,
+        "price":23995,
+        "drivetype" : "FWD"
+    },
+    {
+        "make":"Toyota",
+        "model":"Prius",
+        "year":"2012",
+        "hp":134,
+        "weight":3042,
+        "price":23015
+    },
+    {
+        "make":"Hyundai",
+        "model":"Sonata GLS",
+        "year":"2006",
+        "hp":235,
+        "weight":3458,
+        "price":6830,
+        "drivetype" : "FWD"
+    },
+	{
+        "make":"Volkswagen",
+        "model":"Jetta Sportwagen",
+        "year":"2011",
+        "hp": 140,
+        "weight":3285,
+        "price": 17933,
+        "drivetype" : "FWD"
+    }
+]

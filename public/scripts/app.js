@@ -13,7 +13,7 @@ $(function(){
             $("#cars_list").trigger("update");
         });
 
-        app.addNewVehicle({make: "Honda", model: "Civic", year: 2012});
+        //app.addNewVehicle({make: "Honda", model: "Civic", year: 2012});
     });
 
     function updateCharts (data) {
@@ -37,7 +37,7 @@ $(function(){
             type: 'column'
         },
         title: {
-            text: 'Cost of Performance'
+            text: 'Value of Performance'
         },
         subtitle: {
             text: 'Source: Edmunds.com'
@@ -50,7 +50,7 @@ $(function(){
             }
         },
         series: [{
-            name: "Value (Horsepower per US ton per $1k"
+            name: "HP per US ton per $1k"
         }]
     });
 
